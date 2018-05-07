@@ -20,6 +20,15 @@ import SvgFeedbackNegative from './SvgFeedbackNegative'
 import SvgFeedbackNeutral from './SvgFeedbackNeutral'
 import SvgFeedbackPositive from './SvgFeedbackPositive'
 
+import core from '@userfeeds/core'
+const web3 = import('web3').then((Web3) => {
+  if (typeof window.web3 !== 'undefined') {
+    return new Web3(window.web3.currentProvider)
+  }
+
+  return Promise.reject('No web3 available')
+})
+
 export default {
   components: {
     SvgFeedbackNegative,
@@ -49,7 +58,35 @@ export default {
     trackDappFeedback (feedback) {
       const action = trackDappFeedback(this.dapp.slug, feedback)
       this.$mixpanel.track(action.name, action.data)
-      this.hasSubmitted = true
+
+      if (feedback === 'positive') {
+        web3.then(async (web3Instance) => {
+          const [address] = await web3Instance.eth.getAccounts()
+          if (!address) {
+            return alert('MetaMask is locked')
+          }
+          if (process.env.userfeedsFeedbackNetwork !== (await core.utils.getCurrentNetworkName(web3Instance))) {
+            return alert(`Switch to ${process.env.userfeedsFeedbackNetwork} network`)
+          }
+
+          // Show loader
+          return core.ethereum.claims.sendClaimValueTransfer(web3Instance, process.env.userfeedsFeedbackAddress, process.env.feedbackFee, {
+            claim: {
+              target: this.dapp.slug
+            },
+            credits: [{
+              type: 'interface',
+              value: 'https://www.stateofthedapps.com'
+            }]
+          }).then(({ promiEvent }) => {
+            promiEvent.on('transactionHash', () => (this.hasSubmitted = true))
+          })
+        }).catch((e) => {
+          alert('No web3 available')
+        })
+      } else {
+        this.hasSubmitted = true
+      }
     }
   }
 }

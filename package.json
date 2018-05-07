@@ -16,6 +16,7 @@
     "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/router": "^1.0.1",
     "@nuxtjs/sentry": "^1.0.1",
+    "@userfeeds/core": "^0.1.1",
     "axios": "^0.16.2",
     "camelcase": "^5.0.0",
     "clipboard": "^1.5.16",
@@ -25,6 +26,7 @@
     "redirect-ssl": "^1.2.1",
     "smoothscroll-polyfill": "^0.4.3",
     "vue-clickaway": "^2.1.0",
+    "web3": "^1.0.0-beta.29",
     "webfontloader": "^1.6.28"
   },
   "scripts": {

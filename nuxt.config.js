@@ -6,7 +6,10 @@ const env = {
   mode: process.env.MODE || 'universal',
   linkexchangeRecipientAddress: process.env.LINKEXCHANGE_RECIPIENT_ADDRESS || '0x65bCF0A60B3974931a4459c32ef4043262bc370c',
   linkexchangeTillDate: process.env.LINKEXCHANGE_TILL_DATE || '5/31/2018',
-  linkexchangeWhitelistAddress: process.env.LINKEXCHANGE_WHITELIST_ADDRESS || '0x65bCF0A60B3974931a4459c32ef4043262bc370c'
+  linkexchangeWhitelistAddress: process.env.LINKEXCHANGE_WHITELIST_ADDRESS || '0x65bCF0A60B3974931a4459c32ef4043262bc370c',
+  userfeedsFeedbackAddress: process.env.USERFEEDS_FEEDBACK_ADDRESS || '0x65bCF0A60B3974931a4459c32ef4043262bc370c',
+  userfeedsFeedbackNetwork: process.env.USERFEEDS_FEEDBACK_NETWORK || 'kovan',
+  feedbackFee: process.env.FEEDBACK_FEE || '0.0001'
 }
 
 module.exports = {
@@ -58,7 +61,10 @@ module.exports = {
     linkexchangeRecipientAddress: env.linkexchangeRecipientAddress,
     linkexchangeTillDate: env.linkexchangeTillDate,
     linkexchangeWhitelistAddress: env.linkexchangeWhitelistAddress,
-    mixpanel: env.mixpanel
+    mixpanel: env.mixpanel,
+    userfeedsFeedbackAddress: env.userfeedsFeedbackAddress,
+    userfeedsFeedbackNetwork: env.userfeedsFeedbackNetwork,
+    feedbackFee: env.feedbackFee
   },
   head: {
     title: 'State of the ÐApps — Projects Built on Ethereum',
