@@ -72,7 +72,7 @@ export default {
           // Show loader
           return core.ethereum.claims.sendClaimValueTransfer(web3Instance, process.env.userfeedsFeedbackAddress, process.env.feedbackFee, {
             claim: {
-              target: this.dapp.slug
+              target: `stateofthedapps:dapps:${this.dapp.slug}`
             },
             credits: [{
               type: 'interface',

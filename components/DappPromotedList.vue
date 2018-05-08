@@ -52,9 +52,12 @@ export default {
       .get(`https://api-staging.userfeeds.io/ranking/experimental_boost;asset=${process.env.userfeedsFeedbackNetwork};context=${process.env.userfeedsFeedbackAddress.toLowerCase()}`,
 )
       .then(response => {
-        const dapps = response.data.items
+        const dapps = response.data.items.filter(({ id }) => id.startsWith('stateofthedapps:dapps:'))
         // Fetch all at once
-        return Promise.all(dapps.slice(0, 6).map(({ id }) => axios.get(`/dapps/${id}`).then(({ data }) => data.item.slug ? data.item : null)))
+        return Promise.all(dapps.slice(0, 6).map(({ id }) => {
+          const [,, slug] = id.split(':')
+          return axios.get(`/dapps/${slug}`).then(({ data }) => data.item.slug ? data.item : null)
+        }))
       }).then(dapps => {
         this.dapps = dapps.filter((v) => !!v)
       })
